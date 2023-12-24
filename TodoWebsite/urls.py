@@ -26,4 +26,6 @@ router.register(r'tasks', views.TaskViewSet, 'tasks')
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('auth/', include('authentication.urls', namespace='authentication'))
+
 ]
