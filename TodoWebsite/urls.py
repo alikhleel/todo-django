@@ -18,14 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
-from todo import views
-
-router = routers.DefaultRouter()
-router.register(r'tasks', views.TaskViewSet, 'tasks')
-
+API_PREFIX = 'api/'
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
-    path('auth/', include('authentication.urls', namespace='authentication'))
+    path(API_PREFIX, include('todo.urls', namespace='todo')),
+    path(API_PREFIX, include('authentication.urls', namespace='authentication'))
 
 ]
