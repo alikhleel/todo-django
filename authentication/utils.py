@@ -1,11 +1,13 @@
 from django.core.mail import send_mail
 from django.template.loader import get_template
+from django.urls import reverse
+
+import authentication
 
 
-def send_confirmation_email(email, token_id, user_id):
+def send_confirmation_email(email,  redirect_url):
     data = {
-        'token_id': str(token_id),
-        'user_id': str(user_id),
+        'redirect_url': redirect_url
     }
     message = f"{get_template('confirmation_email.txt').render(data)}"
     send_mail(
