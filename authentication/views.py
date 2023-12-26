@@ -1,3 +1,4 @@
+from django.urls import reverse
 from rest_framework.decorators import api_view
 from rest_framework.generics import CreateAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
@@ -33,7 +34,10 @@ class SendEmailConfirmationTokenView(CreateAPIView):
     def post(self, request, *args, **kwargs):
         user = request.user
         token = EmailConfirmationToken.objects.create(user=user)
-        send_confirmation_email(user.email, token.pk, user.pk)
+        redirect_url = request.build_absolute_uri(
+            f'{reverse("authentication:confirm_email_api_view")}?token_id={token.pk}&user_id={user.pk}'
+        )
+        send_confirmation_email(user.email, redirect_url)
         return Response(data=None, status=201)
 
 
@@ -44,6 +48,8 @@ def confirm_email(request):
     try:
         token = EmailConfirmationToken.objects.get(pk=token_id)
         user = token.user
+        if user.pk != user_id:
+            raise EmailConfirmationToken.DoesNotExist
         user.is_email_confirmed = True
         user.save()
         EmailConfirmationToken.objects.filter(user=user).delete()
