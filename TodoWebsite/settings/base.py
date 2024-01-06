@@ -22,7 +22,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'todo.apps.TodoConfig',
-    'workbook',
     'authentication',
     'rest_framework',
     'rest_framework.authtoken',
