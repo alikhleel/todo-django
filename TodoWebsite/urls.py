@@ -22,5 +22,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path(API_PREFIX, include('todo.urls', namespace='todo')),
     path(API_PREFIX, include('authentication.urls', namespace='authentication')),
-    path(API_PREFIX, include('workbook.urls', namespace='workbook')),
 ]
